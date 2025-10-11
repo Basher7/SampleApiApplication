@@ -1,0 +1,30 @@
+<Project>
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<ServerGarbageCollection>true</ServerGarbageCollection>
+		<Description>Sample Api Project</Description>
+		<Company>Naas Solutions Ltd</Company>
+		<Copyright>Copyright © $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
+
+		<!-- 
+		Version information for an assembly consists of the following three values: 
+			Architectural Change/Major Update
+			Minor/New features
+			Patch/Bug fixes
+		-->
+		<Version>1.0.0</Version>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<DebugType>embedded</DebugType>
+		<NoWarn>IDE1006;</NoWarn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>embedded</DebugType>
+		<NoWarn>IDE1006;</NoWarn>
+	</PropertyGroup>
+
+</Project>
