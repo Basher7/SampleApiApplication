@@ -83,11 +83,11 @@ internal sealed class Startup
         }
 
         // Configure the HTTP request pipeline.
-        if (!isDevelopment)
-        {
-            app.UseHsts();
-            app.UseHttpsRedirection();
-        }
+        //if (!isDevelopment)
+        //{
+        //    app.UseHsts();
+        //    app.UseHttpsRedirection();
+        //}
 
         app.UseResponseCompression();
         app.UseStaticFiles();

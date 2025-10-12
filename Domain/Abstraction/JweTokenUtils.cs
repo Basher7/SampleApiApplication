@@ -30,7 +30,7 @@ public sealed class JweTokenUtils
         var encryptCredentials = new EncryptingCredentials(encryptionKey, SecurityAlgorithms.Aes256KW, SecurityAlgorithms.Aes256CbcHmacSha512);
 
         DateTime nowDate = DateTime.UtcNow;
-        DateTime expireDate = nowDate.AddMinutes(5);
+        DateTime expireDate = nowDate.AddMinutes(1);
 
         var claims = new[]
         {
@@ -98,7 +98,7 @@ public sealed class JweTokenUtils
             ValidateAudience = true,
             ValidAudience = AuthKeys.audience,
             ValidateLifetime = true,
-            ClockSkew = TimeSpan.FromMinutes(1),
+            ClockSkew = TimeSpan.Zero,
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AuthKeys.tokenSignKey)),
             TokenDecryptionKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(AuthKeys.tokenScreatKey))
         };
