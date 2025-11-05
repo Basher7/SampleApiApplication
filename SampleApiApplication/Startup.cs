@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using SampleApiApplication.ActionFilters;
+using SampleApiApplication.Middlewares;
 using System.IO.Compression;
 
 namespace SampleApiApplication;
@@ -14,6 +15,15 @@ internal sealed class Startup
 {
     internal static void ConfigureServices(IServiceCollection services, bool isWindows)
     {
+        // The following code configures the app to generate a problem details response for all HTTP client
+        // and server error responses that don't have a body content yet.
+        services.AddProblemDetails();
+
+        services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddHttpClient();
+        services.AddEndpointsApiExplorer();
+        services.AddMemoryCache();
+
         services.AddResponseCompression(option =>
         {
             option.EnableForHttps = true;
@@ -51,12 +61,7 @@ internal sealed class Startup
             });
 
         services.AddValidatorsFromAssembly(ApplicationAssemblyReference.Assembly);
-        services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
-
-        services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
-        services.AddHttpClient();
-        services.AddMemoryCache();
 
         // Register MediatR
         services.AddMediatR(options =>
@@ -91,6 +96,8 @@ internal sealed class Startup
 
         app.UseResponseCompression();
         app.UseStaticFiles();
+
+        //app.UseMiddleware<GlobalExceptionMiddleware>();
 
         app.MapControllers();
         app.UseRouting();

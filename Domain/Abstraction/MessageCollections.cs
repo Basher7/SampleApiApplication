@@ -10,4 +10,5 @@ public sealed class MessageCollections
 {
     public static string Success => "Success";
     public static string InvalidSession => "Invalid session token, Please Login Again";
+    public static string SomethingWentWrong => "Something went wrong. Please try again.";
 }
