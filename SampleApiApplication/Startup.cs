@@ -35,11 +35,11 @@ internal sealed class Startup
             });
         }
 
-        //services.AddControllersWithViews()
-        //.AddMvcOptions((options) =>
-        //{
-        //    options.Filters.Add(new ConsumesAttribute("application/json"));
-        //});
+        services.Configure<ApiBehaviorOptions>(options =>
+        {
+            options.SuppressModelStateInvalidFilter = true;
+        });
+
         services
             .AddControllers((options) =>
             {

@@ -12,6 +12,21 @@ public class FluentValidationFilter(IServiceProvider serviceProvider) : IAsyncAc
 
     public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
     {
+        // Handle DataAnnotation (ModelState) validation
+        if (!context.ModelState.IsValid)
+        {
+            var firstError = context.ModelState
+                .SelectMany(x => x.Value!.Errors.Select(e => e.ErrorMessage))
+                .FirstOrDefault();
+
+            if (!string.IsNullOrEmpty(firstError))
+            {
+                context.Result = new BadRequestObjectResult(new GlobalApiResponse(false, firstError));
+                return;
+            }
+        }
+
+        // Handle FluentValidation validation
         foreach (var argument in context.ActionArguments.Values)
         {
             if (argument is null) continue;
