@@ -1,9 +1,21 @@
 using Domain.Entities.Jwe;
 using FluentValidation;
 using SampleApiApplication;
+using Serilog;
 using System.Runtime.InteropServices;
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .CreateLogger();
+
+Log.Information("starting server.");
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, loggerConfiguration) =>
+{
+    loggerConfiguration.WriteTo.Console();
+    loggerConfiguration.ReadFrom.Configuration(context.Configuration);
+});
 
 builder.WebHost
     .CaptureStartupErrors(true)
@@ -26,5 +38,7 @@ ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 
 var app = builder.Build();
 Startup.ConfigureMethod(app, isWindows);
+
+app.UseSerilogRequestLogging();
 
 app.Run();
